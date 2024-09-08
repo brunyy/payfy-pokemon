@@ -9,8 +9,18 @@ defmodule PayfyPokemon.Tamagotchi do
   alias PayfyPokemon.Tamagotchi.Pokemon
 
   def update_all_hunger do
-    from(p in Pokemon)
-    |> Repo.update_all(inc: [hunger: 1])
+    Repo.transaction(fn ->
+      from(p in Pokemon,
+        where: p.hunger < 150,
+        update: [inc: [hunger: 1]]
+      )
+      |> Repo.update_all([])
+
+      from(p in Pokemon,
+        where: p.hunger >= 150
+      )
+      |> Repo.update_all(set: [fainted: true])
+    end)
   end
 
   @doc """
