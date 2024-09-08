@@ -49,11 +49,23 @@ defmodule PayfyPokemon.Tamagotchi do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_pokemon(attrs \\ %{}) do
-    %Pokemon{}
-    |> Pokemon.changeset(attrs)
-    |> Repo.insert()
+def create_pokemon(attrs \\ %{}) do
+
+  pokeapi_id = attrs["pokeapi_id"]
+  case PayfyPokemon.PokeAPI.get_pokemon(pokeapi_id) do
+    {:ok, pokemon_data} ->
+      pokemon_species = pokemon_data["name"]
+
+      new_attrs = Map.put(attrs, "species", pokemon_species)
+
+      %Pokemon{}
+      |> Pokemon.changeset(new_attrs)
+      |> Repo.insert()
+
+    {:error, _reason} ->
+      {:error, "Failed to fetch Pokémon details from PokeAPI"}
   end
+end
 
   @doc """
   Updates a pokemon.
