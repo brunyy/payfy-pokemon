@@ -10,6 +10,7 @@ defmodule PayfyPokemon.Application do
     children = [
       PayfyPokemonWeb.Telemetry,
       PayfyPokemon.Repo,
+      PayfyPokemon.Scheduler,
       {DNSCluster, query: Application.get_env(:payfy_pokemon, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: PayfyPokemon.PubSub},
       # Start the Finch HTTP client for sending emails

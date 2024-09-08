@@ -8,6 +8,11 @@ defmodule PayfyPokemon.Tamagotchi do
 
   alias PayfyPokemon.Tamagotchi.Pokemon
 
+  def update_all_hunger do
+    from(p in Pokemon)
+    |> Repo.update_all(inc: [hunger: 1])
+  end
+
   @doc """
   Returns the list of pokemons.
 
