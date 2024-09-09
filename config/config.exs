@@ -11,6 +11,11 @@ config :payfy_pokemon,
   ecto_repos: [PayfyPokemon.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+config :payfy_pokemon, PayfyPokemon.Scheduler,
+jobs: [
+  {"* * * * *", {PayfyPokemon.Tamagotchi, :update_all_hunger, []}}
+]
+
 # Configures the endpoint
 config :payfy_pokemon, PayfyPokemonWeb.Endpoint,
   url: [host: "localhost"],

@@ -7,6 +7,17 @@ defmodule PayfyPokemonWeb.Router do
 
   scope "/api", PayfyPokemonWeb do
     pipe_through :api
+    get "/users/:id", UserController, :show
+    post "/users", UserController, :create
+    put "/users/:id", UserController, :update
+    delete "/users/:id", UserController, :delete
+    post "/pokemons", PokemonController, :create
+    delete "/pokemons/:id", PokemonController, :delete
+    put "/pokemons/:id", PokemonController, :update
+    get "/pokemons", PokemonController, :index
+    get "/pokemons/:id", PokemonController, :show
+    post "/pokemons/:id/feed", PokemonController, :feed
+    post "/pokemons/:id/revive", PokemonController, :revive
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
