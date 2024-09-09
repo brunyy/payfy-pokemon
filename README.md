@@ -2,6 +2,8 @@
 
 This is a REST API built with Elixir and Phoenix that manages users and their Pokémon teams. It interacts with the [PokeAPI](https://pokeapi.co/) and includes functionalities such as creating users and Pokémon, and feeding and reviving Pokémon.
 
+Public api for testing: https://payfy-pokemon-latest.onrender.com/api/
+
 ## Features
 - Register users
 - Create and manage Pokémon
