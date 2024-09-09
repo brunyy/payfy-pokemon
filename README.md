@@ -4,6 +4,8 @@ This is a REST API built with Elixir and Phoenix that manages users and their Po
 
 Public api for testing: https://payfy-pokemon-latest.onrender.com/api/
 
+Docker image: bruny/payfy_pokemon:latest
+
 ## Features
 - Register users
 - Create and manage Pokémon
@@ -50,7 +52,8 @@ Public api for testing: https://payfy-pokemon-latest.onrender.com/api/
 5. Else, with Docker locally:
         
       ```bash
-      docker build --no-cache  -t payfy_pokemon:latest .
+      --docker build --no-cache  -t payfy_pokemon:latest .
+      docker pull bruny/payfy_pokemon:latest
       docker run -d -p 4000:4000 --name payfy_pokemon payfy_pokemon:latest
       ```
 
