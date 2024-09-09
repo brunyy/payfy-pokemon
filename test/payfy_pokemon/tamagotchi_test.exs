@@ -1,5 +1,6 @@
 defmodule PayfyPokemon.TamagotchiTest do
   use PayfyPokemon.DataCase
+  require Logger
 
   alias PayfyPokemon.Tamagotchi
 
@@ -9,6 +10,40 @@ defmodule PayfyPokemon.TamagotchiTest do
     import PayfyPokemon.TamagotchiFixtures
 
     @invalid_attrs %{name: nil, pokeapi_id: nil, user_id: nil}
+
+    test "decreases the hunger level of a non-fainted pokemon" do
+      pokemon = pokemon_fixture()
+      assert {:ok, updated_pokemon} = Tamagotchi.feed_pokemon(pokemon.id)
+      assert updated_pokemon.hunger == pokemon.hunger - 20
+    end
+
+    test "hunger doesn't fall below 0" do
+      pokemon = pokemon_fixture(%{hunger: 10, fainted: false})
+      assert {:ok, updated_pokemon} = Tamagotchi.feed_pokemon(pokemon.id)
+      assert updated_pokemon.hunger == 0
+    end
+
+    test "raises error when feeding a fainted pokemon" do
+      pokemon = pokemon_fixture(%{hunger: 150, fainted: true})
+      assert_raise RuntimeError, "Pokemon #{pokemon.name} is fainted and can't be fed", fn ->
+        Tamagotchi.feed_pokemon(pokemon.id)
+      end
+    end
+
+    test "revives a fainted pokemon and resets hunger to 0" do
+      pokemon = pokemon_fixture(%{hunger: 150, fainted: true})
+      assert {:ok, updated_pokemon} = Tamagotchi.revive_pokemon(pokemon.id)
+      assert updated_pokemon.fainted == false
+      assert updated_pokemon.hunger == 0
+    end
+
+    test "raises error when reviving a non-fainted pokemon" do
+      pokemon = pokemon_fixture(%{hunger: 50, fainted: false})
+
+      assert_raise RuntimeError, "Pokemon #{pokemon.name} is not fainted and can't be revived", fn ->
+        Tamagotchi.revive_pokemon(pokemon.id)
+      end
+    end
 
     test "list_pokemons/0 returns all pokemons" do
       pokemon = pokemon_fixture()
