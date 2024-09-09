@@ -30,6 +30,7 @@ This is a REST API built with Elixir and Phoenix that manages users and their Po
     ```
 
 3. Set up the database:
+    - Database credentials must be provided under /config/. Then run:
 
     ```bash
     mix ecto.create
@@ -44,11 +45,18 @@ This is a REST API built with Elixir and Phoenix that manages users and their Po
 
     The app will be running at `http://localhost:4000`.
 
+5. Else, with Docker locally:
+        
+      ```bash
+      docker build --no-cache  -t payfy_pokemon:latest .
+      docker run -d -p 4000:4000 --name payfy_pokemon payfy_pokemon:latest
+      ```
+
 ## API Endpoints
 
 ### Users
 
-#### Create a User
+#### Create an User
 - **POST** `/users`
 - Creates a new user.
 
@@ -93,6 +101,19 @@ Example Response:
 }
 ````
 
+#### Updates an User
+- **PUT** `/users`
+- Updates an user's data.
+
+Example Request Body:
+```json
+{
+    "user": {
+        "name": "Bruna"
+    }
+}
+```
+
 ### Pokémon
 
 #### Create a Pokémon
@@ -133,6 +154,25 @@ Example Response:
 #### Revive a Pokémon 
 - **`POST`** `/pokemons/{id}/feed`
 - Revives an existing fainted pokémon, sets its hunger to 0.
+
+#### Update a Pokémon's name
+- **PUT** `/pokemons/{id}`
+- Updates an existing pokémon.
+
+Example Request Body:
+```json
+{
+    "pokemon": {
+        "name": "Lu"
+    }
+}
+``` 
+
+#### Deletes a Pokémon
+- **DELETE** `/pokemons/{id}`
+- Removes a pokémon from a player's team.
+
+
 
 
 

@@ -9,6 +9,8 @@ defmodule PayfyPokemonWeb.Router do
     pipe_through :api
     get "/users/:id", UserController, :show
     post "/users", UserController, :create
+    put "/users/:id", UserController, :update
+    delete "/users/:id", UserController, :delete
     post "/pokemons", PokemonController, :create
     delete "/pokemons/:id", PokemonController, :delete
     put "/pokemons/:id", PokemonController, :update
