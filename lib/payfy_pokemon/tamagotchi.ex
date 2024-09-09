@@ -87,6 +87,8 @@ defmodule PayfyPokemon.Tamagotchi do
   """
 def create_pokemon(attrs \\ %{}) do
 
+  attrs = Enum.into(attrs, %{}, fn {key, value} -> {to_string(key), value} end)
+
   pokeapi_id = attrs["pokeapi_id"]
   case PayfyPokemon.PokeAPI.get_pokemon(pokeapi_id) do
     {:ok, pokemon_data} ->

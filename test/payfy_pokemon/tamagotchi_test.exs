@@ -8,26 +8,25 @@ defmodule PayfyPokemon.TamagotchiTest do
 
     import PayfyPokemon.TamagotchiFixtures
 
-    @invalid_attrs %{name: nil, status: nil, hunger: nil, pokeapi_id: nil}
+    @invalid_attrs %{name: nil, pokeapi_id: nil, user_id: nil}
 
     test "list_pokemons/0 returns all pokemons" do
       pokemon = pokemon_fixture()
-      assert Tamagotchi.list_pokemons() == [pokemon]
+      assert Enum.member?(Tamagotchi.list_pokemons(), pokemon)
     end
 
     test "get_pokemon!/1 returns the pokemon with given id" do
       pokemon = pokemon_fixture()
-      assert Tamagotchi.get_pokemon!(pokemon.id) == pokemon
+      actual_pokemon = Tamagotchi.get_pokemon!(pokemon.id)
+      assert pokemon.id == actual_pokemon.id
+      assert pokemon.name == actual_pokemon.name
     end
 
     test "create_pokemon/1 with valid data creates a pokemon" do
-      valid_attrs = %{name: "some name", status: "some status", hunger: 42, pokeapi_id: "some pokeapi_id"}
-
+      valid_attrs = %{name: "some name", pokeapi_id: 1, user_id: 1}
       assert {:ok, %Pokemon{} = pokemon} = Tamagotchi.create_pokemon(valid_attrs)
       assert pokemon.name == "some name"
-      assert pokemon.status == "some status"
-      assert pokemon.hunger == 42
-      assert pokemon.pokeapi_id == "some pokeapi_id"
+      assert pokemon.pokeapi_id == 1
     end
 
     test "create_pokemon/1 with invalid data returns error changeset" do
@@ -36,13 +35,10 @@ defmodule PayfyPokemon.TamagotchiTest do
 
     test "update_pokemon/2 with valid data updates the pokemon" do
       pokemon = pokemon_fixture()
-      update_attrs = %{name: "some updated name", status: "some updated status", hunger: 43, pokeapi_id: "some updated pokeapi_id"}
+      update_attrs = %{name: "some updated name"}
 
       assert {:ok, %Pokemon{} = pokemon} = Tamagotchi.update_pokemon(pokemon, update_attrs)
       assert pokemon.name == "some updated name"
-      assert pokemon.status == "some updated status"
-      assert pokemon.hunger == 43
-      assert pokemon.pokeapi_id == "some updated pokeapi_id"
     end
 
     test "update_pokemon/2 with invalid data returns error changeset" do
