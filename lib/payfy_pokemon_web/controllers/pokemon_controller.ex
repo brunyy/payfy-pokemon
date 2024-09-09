@@ -32,6 +32,17 @@ defmodule PayfyPokemonWeb.PokemonController do
     end
   end
 
+  def revive(conn, %{"id" => id}) do
+    try do
+      with {:ok, %Pokemon{} = pokemon} <- Tamagotchi.revive_pokemon(id) do
+        render(conn, :show, pokemon: pokemon)
+      end
+    rescue
+      e in RuntimeError ->
+        send_resp(conn, :bad_request, e.message)
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     pokemon = Tamagotchi.get_pokemon!(id)
     render(conn, :show, pokemon: pokemon)

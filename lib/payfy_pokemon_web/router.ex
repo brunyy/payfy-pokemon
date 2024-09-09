@@ -13,6 +13,7 @@ defmodule PayfyPokemonWeb.Router do
     get "/pokemons", PokemonController, :index
     get "/pokemons/:id", PokemonController, :show
     post "/pokemons/:id/feed", PokemonController, :feed
+    post "/pokemons/:id/revive", PokemonController, :revive
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

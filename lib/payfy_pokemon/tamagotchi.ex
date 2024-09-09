@@ -40,6 +40,22 @@ defmodule PayfyPokemon.Tamagotchi do
     end)
   end
 
+  def revive_pokemon(id) do
+    Repo.transaction(fn ->
+      pokemon = Repo.get!(Pokemon, id)
+
+      if !pokemon.fainted do
+        raise "Pokemon #{pokemon.name} is not fainted and can't be revived"
+      end
+
+      updated_pokemon =
+        pokemon
+        |> Ecto.Changeset.change(fainted: false, hunger: 0)
+        |> Repo.update!()
+      updated_pokemon
+    end)
+  end
+
   def get_team(user_id) do
     Repo.all(from(p in Pokemon, where: p.user_id == ^user_id))
   end
