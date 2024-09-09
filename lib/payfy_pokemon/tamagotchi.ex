@@ -23,6 +23,23 @@ defmodule PayfyPokemon.Tamagotchi do
     end)
   end
 
+  def feed_pokemon(id) do
+    Repo.transaction(fn ->
+      pokemon = Repo.get!(Pokemon, id)
+
+      if pokemon.fainted do
+        raise "Pokemon #{pokemon.name} is fainted and can't be fed"
+      end
+
+      new_hunger = max(pokemon.hunger - 20, 0)
+      updated_pokemon =
+        pokemon
+        |> Ecto.Changeset.change(hunger: new_hunger)
+        |> Repo.update!()
+      updated_pokemon
+    end)
+  end
+
   @doc """
   Returns the list of pokemons.
 

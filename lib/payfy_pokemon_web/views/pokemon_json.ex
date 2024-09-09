@@ -18,8 +18,11 @@ defmodule PayfyPokemonWeb.PokemonJSON do
   defp data(%Pokemon{} = pokemon) do
     %{
       name: pokemon.name,
+      species: pokemon.species,
       user_id: pokemon.user_id,
-      pokeapi_id: pokemon.pokeapi_id
+      pokeapi_id: pokemon.pokeapi_id,
+      hunger: pokemon.hunger,
+      fainted: pokemon.fainted
     }
   end
 end

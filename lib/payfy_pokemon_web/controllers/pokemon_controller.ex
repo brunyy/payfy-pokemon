@@ -1,4 +1,5 @@
 defmodule PayfyPokemonWeb.PokemonController do
+  require Logger
   use PayfyPokemonWeb, :controller
 
   alias PayfyPokemon.Tamagotchi
@@ -17,6 +18,17 @@ defmodule PayfyPokemonWeb.PokemonController do
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/pokemons/#{pokemon}")
       |> render(:show, pokemon: pokemon)
+    end
+  end
+
+  def feed(conn, %{"id" => id}) do
+    try do
+      with {:ok, %Pokemon{} = pokemon} <- Tamagotchi.feed_pokemon(id) do
+        render(conn, :show, pokemon: pokemon)
+      end
+    rescue
+      e in RuntimeError ->
+        send_resp(conn, :bad_request, e.message)
     end
   end
 
