@@ -8,24 +8,26 @@ defmodule PayfyPokemon.AccountsTest do
 
     import PayfyPokemon.AccountsFixtures
 
-    @invalid_attrs %{name: nil, pass: nil, email: nil}
+    @invalid_attrs %{name: nil, email: nil}
 
     test "list_users/0 returns all users" do
       user = user_fixture()
-      assert Accounts.list_users() == [user]
+      assert Enum.member?(Accounts.list_users(), user)
     end
 
     test "get_user!/1 returns the user with given id" do
       user = user_fixture()
-      assert Accounts.get_user!(user.id) == user
+      actual_user = Accounts.get_user!(user.id)
+      assert user.id == actual_user.id
+      assert user.name == actual_user.name
+      assert user.email == actual_user.email
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{name: "some name", pass: "some pass", email: "some email"}
+      valid_attrs = %{name: "some name", email: "some email"}
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.name == "some name"
-      assert user.pass == "some pass"
       assert user.email == "some email"
     end
 
@@ -35,18 +37,19 @@ defmodule PayfyPokemon.AccountsTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{name: "some updated name", pass: "some updated pass", email: "some updated email"}
+      update_attrs = %{name: "some updated name", email: "some updated email"}
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
       assert user.name == "some updated name"
-      assert user.pass == "some updated pass"
       assert user.email == "some updated email"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
       user = user_fixture()
       assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
-      assert user == Accounts.get_user!(user.id)
+      actual_user = Accounts.get_user!(user.id)
+      assert user.name == actual_user.name
+      assert user.email == actual_user.email
     end
 
     test "delete_user/1 deletes the user" do

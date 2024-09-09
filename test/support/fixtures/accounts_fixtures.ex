@@ -13,7 +13,7 @@ defmodule PayfyPokemon.AccountsFixtures do
       |> Enum.into(%{
         email: "some email",
         name: "some name",
-        pass: "some pass"
+        pokemons: []
       })
       |> PayfyPokemon.Accounts.create_user()
 
