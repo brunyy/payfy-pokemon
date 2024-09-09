@@ -10,6 +10,8 @@ defmodule PayfyPokemonWeb.Router do
     get "/users/:id", UserController, :show
     post "/users", UserController, :create
     post "/pokemons", PokemonController, :create
+    delete "/pokemons/:id", PokemonController, :delete
+    put "/pokemons/:id", PokemonController, :update
     get "/pokemons", PokemonController, :index
     get "/pokemons/:id", PokemonController, :show
     post "/pokemons/:id/feed", PokemonController, :feed

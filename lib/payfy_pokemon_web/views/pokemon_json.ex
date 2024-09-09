@@ -12,7 +12,7 @@ defmodule PayfyPokemonWeb.PokemonJSON do
   Renders a single pokemon.
   """
   def show(%{pokemon: pokemon}) do
-    %{data: data(pokemon)}
+    data(pokemon)
   end
 
   defp data(%Pokemon{} = pokemon) do

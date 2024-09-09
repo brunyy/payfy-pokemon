@@ -13,7 +13,7 @@ defmodule PayfyPokemonWeb.UserJSON do
   Renders a single user.
   """
   def show(%{user: user}) do
-    %{data: data(user)}
+    data(user)
   end
 
   defp data(%User{} = user) do
