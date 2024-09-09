@@ -8,8 +8,7 @@ defmodule PayfyPokemon.Tamagotchi.Pokemon do
     field :fainted, :boolean, default: false
     field :hunger, :integer, default: 0
     field :pokeapi_id, :integer
-    field :user_id, :id
-
+    belongs_to :user, PayfyPokemon.User
     timestamps(type: :utc_datetime)
   end
 

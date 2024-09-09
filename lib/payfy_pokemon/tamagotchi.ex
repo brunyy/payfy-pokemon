@@ -40,6 +40,10 @@ defmodule PayfyPokemon.Tamagotchi do
     end)
   end
 
+  def get_team(user_id) do
+    Repo.all(from(p in Pokemon, where: p.user_id == ^user_id))
+  end
+
   @doc """
   Returns the list of pokemons.
 

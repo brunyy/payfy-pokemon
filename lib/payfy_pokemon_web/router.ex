@@ -7,7 +7,7 @@ defmodule PayfyPokemonWeb.Router do
 
   scope "/api", PayfyPokemonWeb do
     pipe_through :api
-
+    get "/users/:id", UserController, :show
     post "/users", UserController, :create
     post "/pokemons", PokemonController, :create
     get "/pokemons", PokemonController, :index

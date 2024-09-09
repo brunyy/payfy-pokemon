@@ -1,5 +1,6 @@
 defmodule PayfyPokemonWeb.UserJSON do
   alias PayfyPokemon.Accounts.User
+  alias PayfyPokemonWeb.PokemonJSON
 
   @doc """
   Renders a list of users.
@@ -20,7 +21,11 @@ defmodule PayfyPokemonWeb.UserJSON do
       id: user.id,
       name: user.name,
       email: user.email,
-      pass: user.pass
+      team: render_team(user.pokemons)
     }
+  end
+
+  defp render_team(pokemons) do
+    for(pokemon <- pokemons, do: PokemonJSON.show(%{pokemon: pokemon}))
   end
 end
