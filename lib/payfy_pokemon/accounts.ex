@@ -53,11 +53,18 @@ defmodule PayfyPokemon.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+def create_user(attrs \\ %{}) do
+  %User{}
+  |> User.changeset(attrs)
+  |> Repo.insert()
+  |> case do
+    {:ok, user} ->
+      {:ok, Repo.preload(user, :pokemons)}
+
+    {:error, changeset} ->
+      {:error, changeset}
   end
+end
 
   @doc """
   Updates a user.
